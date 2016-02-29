@@ -1,0 +1,8 @@
+development:
+  adapter: postgresql
+  database: project-db-name
+  host: localhost
+test:
+  adapter: postgresql
+  database: project-db-name-test
+  host: localhost
