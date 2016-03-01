@@ -63,7 +63,15 @@ MyApp.post "/users/:id/update" do
   redirect "/users/#{@user.id}/profile"
 end
 
-MyApp.post "users/:id/delete" do
+MyApp.post "/users/:id/delete" do
+  @choices = Choice.where("user_id" => params[:id])
+  @choices.each do |choice|
+    choice.delete
+  end
+
   @user = User.find_by_id(params[:id])
+  @user.delete
+  
+
   redirect "/"
 end

@@ -30,18 +30,13 @@ ActiveRecord::Schema.define(version: 0) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string   "name"
     t.string   "username"
     t.string   "email"
     t.string   "password"
     t.integer  "budget"
-    t.integer  "destination_id_1"
-    t.integer  "destination_id_2"
-    t.integer  "destination_id_3"
-    t.integer  "destination_id_4"
-    t.integer  "destination_id_5"
   end
 
 end
