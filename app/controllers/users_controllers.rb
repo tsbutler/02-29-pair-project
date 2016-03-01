@@ -1,3 +1,8 @@
+MyApp.get "/users" do
+  @users = User.all
+  erb :"users/index"
+end
+
 MyApp.get "/users/new" do
   erb :"users/new"
 end
@@ -11,11 +16,6 @@ MyApp.post "/users/create" do
   @user.budget = params[:budget]
   @user.save
   redirect "/"
-end
-
-MyApp.get "/users" do
-  @users = User.all
-  erb :"users/index"
 end
 
 MyApp.get "/users/:id" do
@@ -36,4 +36,9 @@ end
 MyApp.post "users/:id/delete" do
   @user = User.find_by_id(params[:id])
   redirect "/"
+end
+
+MyApp.get "/users/:id" do
+  @user = User.find_by_id(params[:id])
+  erb :"users/show"
 end
