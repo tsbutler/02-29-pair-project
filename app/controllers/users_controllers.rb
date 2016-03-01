@@ -40,7 +40,6 @@ end
 
 MyApp.post "/users/:id/update" do
   @user = User.find_by_id(params[:id])
-  binding.pry
   @user.name = params[:name]
   @user.username = params[:username]
   @user.password = params[:password]
@@ -48,6 +47,10 @@ MyApp.post "/users/:id/update" do
   @user.budget = params[:budget]
   @user.save
 
+  @choices = Choice.where("user_id" => params[:id])
+  @choices.each do |choice|
+    choice.delete
+  end
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
   choices.each do |choice|
