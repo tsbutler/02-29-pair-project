@@ -16,7 +16,7 @@ MyApp.post "/users/create" do
   @user.budget = params[:budget]
 
   if @user.is_valid? == false
-    erb :"users/error"
+    halt erb :"users/error"
   else
     @user.save
   end
@@ -29,7 +29,7 @@ MyApp.post "/users/create" do
     @choice.destination_id = choice
 
     if @choice.is_valid? == false
-      erb :"choices/error"
+      halt erb :"choices/error"
     else
       @choice.save
     end
