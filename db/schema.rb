@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(version: 0) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+<<<<<<< HEAD
   create_table "categories", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -30,14 +31,35 @@ ActiveRecord::Schema.define(version: 0) do
     t.integer  "user_id"
     t.integer  "created_by_id"
     t.integer  "category_id"
+=======
+  create_table "choices", force: :cascade do |t|
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "user_id"
+    t.integer  "destination_id"
+  end
+
+  create_table "destinations", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string   "name"
+    t.decimal  "price"
+>>>>>>> b9faa046c1129a1a915d8281d6b3dcbffb087da3
   end
 
   create_table "users", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
+<<<<<<< HEAD
     t.string   "email"
     t.string   "password"
+=======
+    t.string   "username"
+    t.string   "email"
+    t.string   "password"
+    t.integer  "budget"
+>>>>>>> b9faa046c1129a1a915d8281d6b3dcbffb087da3
   end
 
 end

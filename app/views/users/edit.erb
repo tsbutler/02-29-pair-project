@@ -1,0 +1,19 @@
+<form action="/users/<%= @user.id %>/update" method="post">
+  Name:
+    <input type="text" name="name" value="<%= @user.name %>"><br>
+  Username:
+    <input type="text" name="username" value="<%= @user.username %>"><br>
+  Password:
+    <input type="text" name="password" value="<%= @user.password %>"><br>
+  Email:
+    <input type="text" name="email" value="<%= @user.email %>"><br>
+  List your top 5 travel destinations:<br>
+    <% @choices.each do |choice| %>
+      <input type="integer" name="destination_id_<%=choice.destination_id %>" 
+      value="<%= choice.destination_id %>"><br>
+    <% end %>  
+  How much are you willing to spend on a ticket?
+    $<input type="integer" name="budget" value="<%= @user.budget %>"><br>
+    <input type="submit">
+</form>
+
