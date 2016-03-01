@@ -9,7 +9,8 @@
     <input type="text" name="email" value="<%= @user.email %>"><br>
   List your top 5 travel destinations:<br>
     <% @choices.each do |choice| %>
-      <input type="integer" name="destination_id_<%=choice.destination_id %>" value="<%= choice.destination_id %>"><br>
+      <input type="integer" name="destination_id_<%=choice.destination_id %>" 
+      value="<%= choice.destination_id %>"><br>
     <% end %>  
   How much are you willing to spend on a ticket?
     $<input type="integer" name="budget" value="<%= @user.budget %>"><br>

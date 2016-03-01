@@ -69,8 +69,9 @@ MyApp.post "/users/:id/update" do
   end
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]  
-  if choices.include?[nil]
-    erb :"choices/error"
+
+  if choices.include?(nil) || choices.include?("")
+    halt erb :"choices/error"
   else
     @choices = Choice.where("user_id" => params[:id])
     @choices.each do |choice|
