@@ -34,6 +34,7 @@ end
 
 MyApp.get "/users/:id/edit" do
   @user = User.find_by_id(params[:id])
+  @choices = Choice.where("user_id" => @user.id)
   erb :"users/edit"
 end
 
@@ -46,6 +47,7 @@ MyApp.post "/users/:id/update" do
   @user.email = params[:email]
   @user.budget = params[:budget]
   @user.save
+
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
   choices.each do |choice|
