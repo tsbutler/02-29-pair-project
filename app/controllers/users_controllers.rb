@@ -14,14 +14,24 @@ MyApp.post "/users/create" do
   @user.password = params[:password]
   @user.email = params[:email]
   @user.budget = params[:budget]
-  @user.save
-  
+
+  if @user.is_valid? == false
+    erb :"users/error"
+  else
+    @user.save
+  end
+
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
   choices.each do |choice|
     @choice = Choice.new
     @choice.user_id = @user.id
     @choice.destination_id = choice
-    @choice.save
+
+    if @choice.is_valid? == false
+      erb :"choices/error"
+    else
+      @choice.save
+    end
   end
 
   redirect "/users/#{@user.id}/profile"
