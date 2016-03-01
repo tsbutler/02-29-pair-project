@@ -20,6 +20,7 @@ MyApp.post "/users/create" do
   else
     @user.save
   end
+  
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
   choices.each do |choice|
