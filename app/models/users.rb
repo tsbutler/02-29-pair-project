@@ -33,5 +33,5 @@ class User < ActiveRecord::Base
   def get_errors
     return @errors
   end
-  
+
 end

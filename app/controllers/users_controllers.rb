@@ -61,14 +61,23 @@ MyApp.post "/users/:id/update" do
   @user.password = params[:password]
   @user.email = params[:email]
   @user.budget = params[:budget]
-  @user.save
 
-  @choices = Choice.where("user_id" => params[:id])
-  @choices.each do |choice|
-    choice.delete
+  if @user.is_valid? == false
+    halt erb :"users/error"
+  else
+    @user.save
   end
 
-  choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
+  choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]  
+  if choices.include?[nil]
+    erb :"choices/error"
+  else
+    @choices = Choice.where("user_id" => params[:id])
+    @choices.each do |choice|
+      choice.delete
+    end
+  end
+
   choices.each do |choice|
     @choice = Choice.new
     @choice.user_id = @user.id
