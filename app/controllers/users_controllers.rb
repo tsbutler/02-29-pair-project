@@ -15,7 +15,8 @@ MyApp.post "/users/create" do
   @user.email = params[:email]
   @user.budget = params[:budget]
   @user.save
-  redirect "/users/<%= @user.id %>/profile"
+  binding.pry
+  redirect "/users/#{@user.id}/profile"
 end
 
 MyApp.get "/users/:id/profile" do
@@ -36,9 +37,4 @@ end
 MyApp.post "users/:id/delete" do
   @user = User.find_by_id(params[:id])
   redirect "/"
-end
-
-MyApp.get "/users/:id" do
-  @user = User.find_by_id(params[:id])
-  erb :"users/show"
 end
