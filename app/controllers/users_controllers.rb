@@ -47,6 +47,7 @@ end
 
 MyApp.get "/users/:id/profile" do
   @user = User.find_by_id(params[:id])
+  @choices = Choice.where("user_id" => params[:id])
   erb :"users/profile"
 end
 
@@ -102,4 +103,39 @@ MyApp.post "/users/:id/delete" do
   
 
   redirect "/"
+end
+
+MyApp.get "/users/process_search" do
+  # locations_and_prices = {}
+
+  # @current_user.destinations.each do |d|
+  #   ........
+
+  # end
+
+  request_data = {
+    "request" => {
+      "passengers" => {
+        "adultCount" => "1"
+      },
+      "slice" => [
+        {
+          "origin" => "OMA",
+          "destination" => "LAX",
+          "date" => Date.today.next_day.strftime("%Y-%m-%d")
+        }
+      ],
+      "solutions" => "1"
+    }
+  }
+
+  response_key_value_data = HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
+    { 
+    :body => request_data.to_json,
+    :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+  })
+
+  binding.pry # response_key_value_data["flights"][0]["info"][1]["cost"]
+
+  # locations_and_prices[d] = response_key_value_data["flights"][0]["info"][1]["cost"]
 end
