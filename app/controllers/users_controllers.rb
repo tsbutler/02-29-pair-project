@@ -21,8 +21,10 @@ MyApp.post "/users/create" do
   else
     @user.save
   end
-binding.pry
+
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
+
+  binding.pry 
   choices.each do |choice|
     @choice = Choice.new
     @choice.user_id = @user.id
