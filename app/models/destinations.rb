@@ -12,6 +12,7 @@ class Destination < ActiveRecord::Base
     if self.airport_code == nil || self.airport_code == ""
       @errors << "Airport code cannot be blank."
     end
+    return @errors
   end
 
   #tells user whether input to form is valid
