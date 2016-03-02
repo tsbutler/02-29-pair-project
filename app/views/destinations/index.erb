@@ -1,5 +1,17 @@
 <h1>All Destinations </h1>
 
+<form action="/destinations/new" method="get">
+  <input type="submit" value="Add a destination">
+</form><br>
+
 <% @destinations.each do |d| %>
 <%= d.name %> -- <%= d.airport_code %>
+
+<form action="/destinations/<%= d.id %>/edit" method="get">
+  <input type="submit" value="Edit"> </form>
+
+<form action="/destinations/<%= d.id %>/delete" method="post">
+  <input type="submit" value="Delete">
+</form>
+<br>
 <% end %>
