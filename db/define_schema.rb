@@ -12,5 +12,6 @@ DB.define_column("choices", "user_id", "integer")
 DB.define_column("choices", "destination_id", "integer")
 
 DB.define_table("destinations")
+DB.define_column("destinations", "airport_code", "string")
 DB.define_column("destinations", "name", "string")
 DB.define_column("destinations", "price", "decimal")

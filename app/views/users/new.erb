@@ -7,13 +7,57 @@
     <input type="text" name="password"><br>
   Email:
     <input type="text" name="email"><br>
+
+
   List your top 5 travel destinations:<br>
-    <input type="integer" name="destination_id_1"><br>
-    <input type="integer" name="destination_id_2"><br>
-    <input type="integer" name="destination_id_3"><br>
-    <input type="integer" name="destination_id_4"><br>
-    <input type="integer" name="destination_id_5"><br>
+
+  <select name="destination_id_1">
+    <option value=0>Select a destination...</option>
+      <%@destinations.each do |d| %>
+        <option value="<%=d.id%>">
+         <%=d.name%>
+        </option>
+      <%end%>
+  </select><br>
+
+  <select name="destination_id_2">
+    <option value=0>Select a destination...</option>
+      <%@destinations.each do |d| %>
+        <option value="<%=d.id%>">
+         <%=d.name%>
+        </option>
+      <%end%>
+  </select><br>
+
+  <select name="destination_id_3">
+    <option value=0>Select a destination...</option>
+      <%@destinations.each do |d| %>
+        <option value="<%=d.id%>">
+         <%=d.name%>
+        </option>
+      <%end%>
+  </select><br>
+
+  <select name="destination_id_4">
+    <option value=0>Select a destination...</option>
+      <%@destinations.each do |d| %>
+        <option value="<%=d.id%>">
+         <%=d.name%>
+        </option>
+      <%end%>
+  </select><br>
+
+  <select name="destination_id_5">
+    <option value=0>Select a destination...</option>
+      <%@destinations.each do |d| %>
+        <option value="<%=d.id%>">
+         <%=d.name%>
+        </option>
+      <%end%>
+  </select><br>
+
+
   How much are you willing to spend on a ticket?
     $<input type="integer" name="budget"><br>
-    <input type="submit">
+    <input type="submit" value="Submit">
 </form>
