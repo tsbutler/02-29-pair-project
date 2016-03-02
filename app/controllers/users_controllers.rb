@@ -4,6 +4,7 @@ MyApp.get "/users" do
 end
 
 MyApp.get "/users/new" do
+  @destinations = Destination.all
   erb :"users/new"
 end
 
@@ -20,7 +21,7 @@ MyApp.post "/users/create" do
   else
     @user.save
   end
-
+binding.pry
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
   choices.each do |choice|
     @choice = Choice.new
