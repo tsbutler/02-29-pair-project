@@ -105,7 +105,7 @@ MyApp.post "/users/:id/delete" do
   redirect "/"
 end
 
-MyApp.get "/users/process_search" do
+MyApp.get "/users/:id/process_search" do
   # locations_and_prices = {}
 
   # @current_user.destinations.each do |d|
@@ -138,4 +138,6 @@ MyApp.get "/users/process_search" do
   binding.pry # response_key_value_data["flights"][0]["info"][1]["cost"]
 
   # locations_and_prices[d] = response_key_value_data["flights"][0]["info"][1]["cost"]
+
+  erb :"users/display_results"
 end

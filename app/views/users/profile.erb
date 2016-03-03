@@ -4,7 +4,7 @@
   <%= choice.destination_id %><br>
 <% end %>
 
-<form action="/users/process_search" method="get">
+<form action="/users/<%= @user.id %>/process_search" method="get">
   <input type="submit" value="GTFOmaha">
 </form>
 
