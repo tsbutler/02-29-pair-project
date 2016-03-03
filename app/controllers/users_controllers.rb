@@ -53,12 +53,20 @@ MyApp.get "/users/:id/profile" do
 end
 
 MyApp.get "/users/:id/edit" do
+  @destinations = Destination.all
+  @dest_id_array = []
+  @choices = Choice.where("user_id" => params[:id])
+  @choices.each do |c|
+    @dest_id_array << c.destination_id
+  end
   @user = User.find_by_id(params[:id])
   @choices = Choice.where("user_id" => @user.id)
   erb :"users/edit"
 end
 
 MyApp.post "/users/:id/update" do
+  @destinations = Destination.all
+
   @user = User.find_by_id(params[:id])
   @user.name = params[:name]
   @user.username = params[:username]
@@ -73,7 +81,6 @@ MyApp.post "/users/:id/update" do
   end
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]  
-
   if choices.include?(nil) || choices.include?("")
     halt erb :"choices/error"
   else
@@ -137,9 +144,9 @@ MyApp.get "/users/:id/process_search" do
   @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
-@gtfo_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
-if @gtfo_arr.length > 0
+  @gtfo_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
+
   @returnable_location_and_price_hash = @current_user.get_gtfos_and_prices(@current_user.id, @locations_and_prices)
-end  
+  
   erb :"users/display_results"
 end
