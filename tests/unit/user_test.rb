@@ -11,6 +11,18 @@ class UserTest < Minitest::Test
     @u1.budget = 2300
     @u1.save
 
+    @d4 = Destination.new
+    @d4.airport_code = "LHR"
+    @d4.name = "London Heathrow"
+    @d4.save
+
+    @c1 = Choice.new
+    @c1.destination_id = @d4.id
+    @c1.user_id = @u1.id
+    @c1.save
+
+
+
     @u2 = User.new
     @u2.name = ""
     @u2.username = ""
@@ -46,4 +58,7 @@ class UserTest < Minitest::Test
     assert_includes(@u2.get_errors, "Budget cannot be blank.")
   end
 
+  def test_get_airport_codes
+    assert_includes(@u1.get_airport_codes(@u1.id), "LHR")
+  end
 end

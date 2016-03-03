@@ -1,3 +1,4 @@
+require 'date'
 MyApp.get "/users" do
   @users = User.all
   erb :"users/index"
@@ -107,6 +108,9 @@ end
 
 MyApp.get "/users/:id/process_search" do
   # locations_and_prices = {}
+  
+
+  
 
   # @current_user.destinations.each do |d|
   #   ........
@@ -121,8 +125,8 @@ MyApp.get "/users/:id/process_search" do
       "slice" => [
         {
           "origin" => "OMA",
-          "destination" => "LAX",
-          "date" => Date.today.next_day.strftime("%Y-%m-%d")
+          "destination" => "@airport_codes[0]",
+          "date" => (Date.today + 1).to_s
         }
       ],
       "solutions" => "1"
