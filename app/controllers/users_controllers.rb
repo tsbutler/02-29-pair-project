@@ -147,6 +147,10 @@ MyApp.get "/users/:id/process_search" do
   @gtfo_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
 
   @returnable_location_and_price_hash = @current_user.get_gtfos_and_prices(@current_user.id, @locations_and_prices)
+  @returnable_keys = []
+  @returnable_values = []
+  @returnable_keys = @returnable_location_and_price_hash.keys
+  @returnable_values = @returnable_location_and_price_hash.values
   
   erb :"users/display_results"
 end

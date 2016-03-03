@@ -5,4 +5,9 @@
 <% else %>
   <p> There are returnable results. </p>
   <%= @gtfo_arr %>
+
+  <%@returnable_keys.each do |key| %>
+    <%= key %>
+  <% end %>
+  
 <% end %>
