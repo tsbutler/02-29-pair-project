@@ -131,10 +131,9 @@ class FlightTest < Minitest::Test
   end
 
   def test_get_total_cost
-    # @response_data....
 
-    x = "Foo"
+    x = @response_data["trips"]["tripOption"][0]["saleTotal"]
 
-    assert_includes("155.35", x)
+    assert_equal("USD185.10", x)
   end
 end
