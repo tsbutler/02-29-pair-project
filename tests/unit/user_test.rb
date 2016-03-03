@@ -69,4 +69,12 @@ class UserTest < Minitest::Test
   def test_get_airport_codes
     assert_includes(@u1.get_airport_codes(@u1.id), "LHR")
   end
+
+  def test_get_price_array
+    assert_equal(@u1.get_price_array(@u1.id, {"LHR" => 1600}), [1600])
+  end
+
+  def test_get_gtfos_and_prices
+    assert_equal(@u1.get_gtfos_and_prices(@u1.id, {"LHR" => 1600}), {"LHR" => 1600})
+  end
 end

@@ -127,13 +127,10 @@ class FlightTest < Minitest::Test
           "OMA UA X/DEN UA LAX 155.35LAK14AKS USD 155.35 END ZP OMA DEN XT 11.65US 8.00ZP 5.60AY 4.50XF DEN4.50",
          "latestTicketingTime"=>"2016-03-03T23:59-05:00",
          "ptc"=>"ADT"}]}]}}
-    binding.pry
   end
 
   def test_get_total_cost
-
     x = @response_data["trips"]["tripOption"][0]["saleTotal"]
-
     assert_equal("USD185.10", x)
   end
 end

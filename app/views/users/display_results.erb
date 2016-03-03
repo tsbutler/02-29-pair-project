@@ -1,22 +1,8 @@
 <h1>Your Results</h1>
 
-gtfo_arr = []
-gtfos_and_prices = {}
-
-price_arr = @locations_and_prices.values
-
-price_arr.each do |price|
-  if price <= @user.budget
-    gtfo_arr << price
-  end
-end
-
-if gtfo_arr.length > 0
-  gtfo_arr.each do |price|
-    gtfos_and_prices[@locations_and_prices.key(price)] = price
-  end
-else
-  <p>
-    Better luck getting out tomorrow.
-  </p>
-end  
+<% if @gtfo_arr.length == 0 %>
+  <p> Sorry, try again another time. </p>
+<% else %>
+  <p> There are returnable results. </p>
+  <%= @gtfo_arr %>
+<% end %>

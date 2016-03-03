@@ -79,4 +79,28 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
+  def get_price_array(user_id, locations_and_prices)
+    @gtfo_arr = []
+    price_arr = locations_and_prices.values
+    @user = User.find_by_id(user_id)
+
+    price_arr.each do |string_price|
+      price = string_price.delete("USD").to_f
+      if price <= @user.budget
+        @gtfo_arr << price
+      end
+    end
+    return @gtfo_arr
+  end
+
+  def get_gtfos_and_prices(user_id, locations_and_prices)
+    @gtfos_and_prices = {}
+    @user = User.find_by_id(user_id)
+    @gtfo_arr = @user.get_price_array(user_id, locations_and_prices)
+    @gtfo_arr.each do |price|
+      @gtfos_and_prices[locations_and_prices.key(price)] = price
+    end
+    return @gtfos_and_prices #hash of keys(codes) and values(prices) below budget
+  end
+
 end
