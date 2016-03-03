@@ -48,6 +48,7 @@ end
 MyApp.get "/users/:id/profile" do
   @user = User.find_by_id(params[:id])
   @choices = Choice.where("user_id" => params[:id])
+  @destinations = Destination.all
   erb :"users/profile"
 end
 

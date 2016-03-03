@@ -58,6 +58,14 @@ class UserTest < Minitest::Test
     assert_includes(@u2.get_errors, "Budget cannot be blank.")
   end
 
+  def test_get_choices
+    assert_includes(@u1.get_choices(@u1.id), @c1)
+  end
+
+  def test_get_destination_ids
+    assert_includes(@u1.get_destination_ids(@u1.id), @d4.id)
+  end
+
   def test_get_airport_codes
     assert_includes(@u1.get_airport_codes(@u1.id), "LHR")
   end

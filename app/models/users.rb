@@ -44,21 +44,39 @@ class User < ActiveRecord::Base
     return @errors
   end
 
-  #returns the list of user choices as airport codes
+  #Returns a collection of the user's choice objects
   #
-  #returns Array of Strings
-  def get_airport_codes(user_id)
-    @destination_ids = []
-    @airport_codes = []
+  #Returns an Array of Objects
+  def get_choices(user_id)
     @choices = Choice.where("user_id" => user_id)
+    return @choices
+  end
+
+  #Returns an Array of destination IDs associated with the user's choices
+  #
+  #Returns an Array of Integers
+  def get_destination_ids(user_id)
+    @destination_ids = []
+    @user_object = User.find_by_id(user_id)
+    @choices = @user_object.get_choices(user_id)
     @choices.each do |choice|
       @destination_ids << choice.destination_id
     end
-    @destination_ids.each do |destination|
+    return @destination_ids
+  end
+
+  #Returns an Array of airport_codes associated with the user's choices
+  #
+  #Returns an Array of Strings
+  def get_airport_codes(user_id)
+    @airport_codes = []
+    @user_object = User.find_by_id(user_id)
+    @destinations = @user_object.get_destination_ids(user_id)
+    @destinations.each do |destination|
       location = Destination.find_by_id(destination)
       @airport_codes << location.airport_code
     end
     return @airport_codes
-  end     
+  end
 
 end
