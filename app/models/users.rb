@@ -58,7 +58,7 @@ class User < ActiveRecord::Base
       location = Destination.find_by_id(destination)
       @airport_codes << location.airport_code
     end
-  return @airport_codes[0]
+    return @airport_codes
   end     
 
 end
