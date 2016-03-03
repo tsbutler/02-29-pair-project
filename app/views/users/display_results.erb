@@ -1,18 +1,19 @@
 <h1>Your Results</h1>
 
 gtfo_arr = []
+gtfos_and_prices = {}
 
-location_and_prices = {desination => price}
-price_arr = location_and_price.values
+price_arr = @locations_and_prices.values
 
 price_arr.each do |price|
-  if price <= user.budget
+  if price <= @user.budget
     gtfo_arr << price
   end
 end
 
 if gtfo_arr.length > 0
-  search location_and_prices by value for items in gtfo_arr
-  return list of destinations and prices
+  gtfo_arr.each do |price|
+    gtfos_and_prices[@locations_and_prices.key(price)] = price
+  end
 else
-  redirect to sorry  
+    

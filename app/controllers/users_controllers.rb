@@ -107,31 +107,26 @@ MyApp.post "/users/:id/delete" do
 end
 
 MyApp.get "/users/:id/process_search" do
-  # locations_and_prices = {}
-  
-
-  
-
-  # @current_user.destinations.each do |d|
-  #   ........
-
-  # end
-
-  request_data = {
-    "request" => {
-      "passengers" => {
-        "adultCount" => "1"
-      },
-      "slice" => [
-        {
-          "origin" => "OMA",
-          "destination" => "@airport_codes[0]",
-          "date" => (Date.today + 1).to_s
-        }
-      ],
-      "solutions" => "1"
+  @locations_and_prices = {}
+  @current_user = User.find_by_id(session["user_id"])
+  @airport_codes = @current_user.get_airport_codes(@current_user.id)
+  @airport_codes.each do |code|
+    
+    request_data = {
+      "request" => {
+        "passengers" => {
+          "adultCount" => "1"
+        },
+        "slice" => [
+          {
+            "origin" => "OMA",
+            "destination" => code,
+            "date" => (Date.today + 1).to_s
+          }
+        ],
+        "solutions" => "1"
+      }
     }
-  }
 
   response_key_value_data = HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
     { 
@@ -139,9 +134,9 @@ MyApp.get "/users/:id/process_search" do
     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
   })
 
-  binding.pry # response_key_value_data["flights"][0]["info"][1]["cost"]
-
-  # locations_and_prices[d] = response_key_value_data["flights"][0]["info"][1]["cost"]
+  @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
+  end
+  
 
   erb :"users/display_results"
 end
