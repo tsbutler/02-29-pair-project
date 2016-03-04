@@ -79,6 +79,9 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
+  #Returns an Array of prices associated with the user's choices that are #below their stated budget
+  #
+  #Returns an Array of Strings  
   def get_price_array(user_id, locations_and_prices)
     @gtfo_arr = []
     @price_arr = locations_and_prices.values
@@ -100,6 +103,9 @@ class User < ActiveRecord::Base
     return @gtfo_string_arr
   end
 
+  #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
+  #
+  #Returns a Hash of Strings
   def get_codes_and_prices(user_id, locations_and_prices)
     @codes_and_prices = {}
     @user = User.find_by_id(user_id)

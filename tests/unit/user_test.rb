@@ -71,10 +71,10 @@ class UserTest < Minitest::Test
   end
 
   def test_get_price_array
-    assert_equal(@u1.get_price_array(@u1.id, {"LHR" => 1600}), [1600])
+    assert_equal(@u1.get_price_array(@u1.id, {"LHR" => "USD1600.00"}), ["USD1600.00"])
   end
 
   def test_get_codes_and_prices
-    assert_equal(@u1.get_gtfos_and_prices(@u1.id, {"LHR" => 1600}), {"LHR" => 1600})
+    assert_equal(@u1.get_codes_and_prices(@u1.id, {"LHR" => "USD1600.00"}), {"LHR" => "USD1600.00"})
   end
 end
