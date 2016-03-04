@@ -3,8 +3,7 @@
 <% if @gtfo_string_arr.length == 0 %>
   <p> Better luck GTFOmaha-ing tomorrow! </p>
 <% else %>
-  <p> There are returnable results. </p>
-  <%= @gtfo_string_arr %>
+  <p> There are returnable results. </p><br>
 
   <% @return_this.each do |i| %>
     <%= i %><br>
