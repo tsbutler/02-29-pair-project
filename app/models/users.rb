@@ -95,6 +95,7 @@ class User < ActiveRecord::Base
       i = "%.2f" % i
       @gtfo_string_arr << i
     end
+
     @gtfo_string_arr.map! { |word| "USD#{word}" }
     return @gtfo_string_arr
   end

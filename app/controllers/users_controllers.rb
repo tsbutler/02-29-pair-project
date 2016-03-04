@@ -141,12 +141,13 @@ MyApp.get "/users/:id/process_search" do
     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
   })
 
-  @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"] #returns {"JFK"=>"USD549.36", "GUA"=>"USD554.40", "LHR"=>"USD1421.90", "YUL"=>"USD316.85", "TUS"=>"USD475.10"}
+  @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
-  @gtfo_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices) #returns ["USD549.36", "USD554.4", "USD316.85", "USD475.1"]
+  @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
 
-  @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@current_user.id, @locations_and_prices) #returns {nil=>475.1}
+  @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@current_user.id, @locations_and_prices)
+
   @returnable_location_and_price_array = @returnable_location_and_price_hash.to_a
 
   @return_this = []
