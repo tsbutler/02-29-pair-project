@@ -42,7 +42,7 @@ MyApp.post "/users/create" do
     end
   end
 
-  redirect "/users/#{@user.id}/profile"
+  redirect "/logins/new"
 end
 
 MyApp.get "/users/:id/profile" do
