@@ -1,12 +1,12 @@
 <h1>Your Results</h1>
 
-<% if @gtfo_arr.length == 0 %>
-  <p> Sorry, try again another time. </p>
+<% if @gtfo_string_arr.length == 0 %>
+  <p> Better luck GTFOmaha-ing tomorrow! </p>
 <% else %>
   <p> There are returnable results. </p>
-  <%= @gtfo_arr %>
+  <%= @gtfo_string_arr %>
 
   <% @return_this.each do |i| %>
-    <%= i %>
+    <%= i %><br>
   <% end %>
 <% end %>

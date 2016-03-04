@@ -74,7 +74,7 @@ class UserTest < Minitest::Test
     assert_equal(@u1.get_price_array(@u1.id, {"LHR" => 1600}), [1600])
   end
 
-  def test_get_gtfos_and_prices
+  def test_get_codes_and_prices
     assert_equal(@u1.get_gtfos_and_prices(@u1.id, {"LHR" => 1600}), {"LHR" => 1600})
   end
 end

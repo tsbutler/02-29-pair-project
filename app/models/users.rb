@@ -81,26 +81,34 @@ class User < ActiveRecord::Base
 
   def get_price_array(user_id, locations_and_prices)
     @gtfo_arr = []
-    price_arr = locations_and_prices.values
+    @price_arr = locations_and_prices.values
     @user = User.find_by_id(user_id)
 
-    price_arr.each do |string_price|
+    @price_arr.each do |string_price|
       price = string_price.delete("USD").to_f
       if price <= @user.budget
         @gtfo_arr << price
       end
     end
-    return @gtfo_arr
+    @gtfo_string_arr = []
+    @gtfo_arr.each do |i|
+      i = "%.2f" % i
+      @gtfo_string_arr << i
+    end
+    @gtfo_string_arr.map! { |word| "USD#{word}" }
+    return @gtfo_string_arr
   end
 
-  def get_gtfos_and_prices(user_id, locations_and_prices)
-    @gtfos_and_prices = {}
+  def get_codes_and_prices(user_id, locations_and_prices)
+    @codes_and_prices = {}
     @user = User.find_by_id(user_id)
-    @gtfo_arr = @user.get_price_array(user_id, locations_and_prices)
-    @gtfo_arr.each do |price|
-      @gtfos_and_prices[locations_and_prices.key(price)] = price
+    @gtfo_string_arr = @user.get_price_array(user_id, locations_and_prices)
+ 
+    @gtfo_string_arr.each do |i|
+      gtfo_key = locations_and_prices.key(i)
+      @codes_and_prices[gtfo_key] = i
     end
-    return @gtfos_and_prices #hash of keys(codes) and values(prices) below budget
+    return @codes_and_prices #hash of keys(codes) and values(prices) below budget
   end
 
 end
