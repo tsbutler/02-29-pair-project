@@ -1,4 +1,5 @@
 require 'date'
+
 MyApp.get "/users" do
   @users = User.all
   erb :"users/index"
@@ -43,6 +44,13 @@ MyApp.post "/users/create" do
   end
 
   redirect "/logins/new"
+end
+
+MyApp.before "/users/:id/*" do
+  @current_user = User.find_by_id(session[:user_id])
+  if @current_user == nil
+    redirect "/logins/new"
+  end
 end
 
 MyApp.get "/users/:id/profile" do

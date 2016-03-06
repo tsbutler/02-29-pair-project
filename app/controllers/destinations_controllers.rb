@@ -1,3 +1,10 @@
+MyApp.before "/destinations*" do
+  @current_user = User.find_by_id(session[:user_id])
+  if @current_user == nil
+    redirect "/logins/new"
+  end
+end
+
 MyApp.get "/destinations/new" do
   erb :"destinations/new"
 end
