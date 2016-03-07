@@ -62,7 +62,6 @@ class User < ActiveRecord::Base
   #Generates an Array of prices drawn from the locations_and_prices Hash.
   def set_price_arr(locations_and_prices)
     @price_arr = locations_and_prices.values
-    binding.pry
     return @price_arr
   end
 
@@ -83,11 +82,9 @@ class User < ActiveRecord::Base
     @gtfo_arr.each do |i|
       i = "%.2f" % i
       @gtfo_string_arr << i
-      binding.pry
     end
 
     @gtfo_string_arr.map! { |word| "USD#{word}" }
-    binding.pry
     return @gtfo_string_arr
   end
 
