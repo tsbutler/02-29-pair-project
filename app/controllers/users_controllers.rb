@@ -152,6 +152,10 @@ MyApp.get "/users/:id/process_search" do
   @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
+  #------------------------------------------------------------------------
+  # I think what is above this line still works.  Need to take a hard look at # what's below and get it to work with the changes that were made on the 
+  # user model.
+
   @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @current_user.set_price_arr(@locations_and_prices))
 
   if @gtfo_string_arr.length == 0

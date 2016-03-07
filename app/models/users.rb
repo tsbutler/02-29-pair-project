@@ -71,12 +71,13 @@ class User < ActiveRecord::Base
   #(still prices)
   #
   #Returns an Array of Floats  
-  def convert_price_arr_to_floats(set_price_arr)
+  def convert_price_arr_to_floats(price_arr)
     @gtfo_arr = []
     price_arr.each do |string_price|
       price = string_price.delete("USD").to_f
         @gtfo_arr << price
     end
+    return @gtfo_arr
   end
 
   #Compares an Array of Floats to the user's stated budget.
@@ -92,6 +93,10 @@ class User < ActiveRecord::Base
     return @passing_arr
   end
   
+  #Converts the Array of prices that are below the user's budget back from
+  #floats to strings.
+  #
+  #returns an Array of Strings
   def converts_passing_arr_back_to_strings(passing_arr)
     @gtfo_string_arr = []
     @passing_arr.each do |i|
@@ -100,12 +105,13 @@ class User < ActiveRecord::Base
     end
   end
 
-  def map_usd_onto_gtfo_string_arr
+  #Maps the String "USD" to the front of each member of the Array.
+  #
+  #Returns an Array of Strings
+  def map_usd_onto_gtfo_string_arr(gtfo_string_arr)
     @gtfo_string_arr.map! { |word| "USD#{word}" }
-    return @gtfo_string_arr
+    return @formatted_gtfo_string_arr
   end
-
-  
 
   #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
   #
