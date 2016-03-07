@@ -60,30 +60,47 @@ class User < ActiveRecord::Base
   end
 
   #Generates an Array of prices drawn from the locations_and_prices Hash.
+  #
+  #Returns an Array of Strings
   def set_price_arr(locations_and_prices)
     @price_arr = locations_and_prices.values
     return @price_arr
   end
 
-  #Returns an Array of prices associated with the user's choices that are #below their stated budget
+  #Takes an Array of Strings(prices) and converts them to an Array of Floats
+  #(still prices)
   #
-  #Returns an Array of Strings  
-  def get_price_array(user_id, price_arr)
+  #Returns an Array of Floats  
+  def convert_price_arr_to_floats(set_price_arr)
     @gtfo_arr = []
-    @user = User.find_by_id(user_id)
-
     price_arr.each do |string_price|
       price = string_price.delete("USD").to_f
-      if price <= @user.budget
         @gtfo_arr << price
+    end
+  end
+
+  #Compares an Array of Floats to the user's stated budget.
+  #
+  #Returns an Array of Floats.
+  def compare_price_arr_to_budget(gtfo_arr)
+    @passing_arr = []
+    gtfo_arr.each do |price|
+      if price <= @user.budget
+        @passing_arr << price
       end
     end
+    return @passing_arr
+  end
+  
+  def converts_passing_arr_back_to_strings(passing_arr)
     @gtfo_string_arr = []
-    @gtfo_arr.each do |i|
+    @passing_arr.each do |i|
       i = "%.2f" % i
       @gtfo_string_arr << i
     end
+  end
 
+  def map_usd_onto_gtfo_string_arr
     @gtfo_string_arr.map! { |word| "USD#{word}" }
     return @gtfo_string_arr
   end
