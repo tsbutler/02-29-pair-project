@@ -1,6 +1,7 @@
+# This module handles user validation methods that aren't model specific.
 module Errors
 
-#tells user whether input to form is valid
+  #tells user whether input to form is valid
   #
   #returns Boolean true or false
   def is_valid?
