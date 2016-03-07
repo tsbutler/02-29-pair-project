@@ -1,4 +1,4 @@
-require 'date'
+  require 'date'
 
 MyApp.get "/users" do
   @users = User.all
