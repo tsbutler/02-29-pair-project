@@ -1,3 +1,4 @@
+#columns: "airport_code", "name"
 class Destination < ActiveRecord::Base
 
   #generates an Array of input errors

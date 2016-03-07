@@ -1,3 +1,4 @@
+#columns: "user_id", "destination_id"
 class Choice < ActiveRecord::Base
 
   #generates an Array of input errors

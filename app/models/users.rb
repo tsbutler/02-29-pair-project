@@ -1,3 +1,4 @@
+#columns: "name", "username", "email", "password", "budget"
 class User < ActiveRecord::Base
 
   #generates an Array of input errors
