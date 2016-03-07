@@ -59,15 +59,21 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
+  #Generates an Array of prices drawn from the locations_and_prices Hash.
+  def set_price_arr(locations_and_prices)
+    @price_arr = locations_and_prices.values
+    binding.pry
+    return @price_arr
+  end
+
   #Returns an Array of prices associated with the user's choices that are #below their stated budget
   #
   #Returns an Array of Strings  
-  def get_price_array(user_id, locations_and_prices)
+  def get_price_array(user_id, price_arr)
     @gtfo_arr = []
-    @price_arr = locations_and_prices.values
     @user = User.find_by_id(user_id)
 
-    @price_arr.each do |string_price|
+    price_arr.each do |string_price|
       price = string_price.delete("USD").to_f
       if price <= @user.budget
         @gtfo_arr << price
@@ -77,11 +83,15 @@ class User < ActiveRecord::Base
     @gtfo_arr.each do |i|
       i = "%.2f" % i
       @gtfo_string_arr << i
+      binding.pry
     end
 
     @gtfo_string_arr.map! { |word| "USD#{word}" }
+    binding.pry
     return @gtfo_string_arr
   end
+
+  
 
   #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
   #

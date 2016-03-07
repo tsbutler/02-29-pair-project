@@ -152,15 +152,19 @@ MyApp.get "/users/:id/process_search" do
   @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
-  @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
+  @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @current_user.set_price_arr(@locations_and_prices))
 
   @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@current_user.id, @locations_and_prices)
 
   @returnable_location_and_price_array = @returnable_location_and_price_hash.to_a
 
   @return_this = []
-  @returnable_location_and_price_array.each do |i|
-    @return_this << (i[0] + " -- " + i[1])
+  if @returnable_location_and_price_array.length == 0
+    erb :"users/display_results"
+  else
+    @returnable_location_and_price_array.each do |i|
+      @return_this << (i[0] + " -- " + i[1])
+    end
   end
   
   erb :"users/display_results"
