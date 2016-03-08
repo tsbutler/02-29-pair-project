@@ -30,7 +30,7 @@ def response_key_value_data
   })
 end
 
-MyApp.get "/users/:id/process_search" do
+def process_search
   @locations_and_prices = {}
   @current_user = User.find_by_id(session["user_id"])
   @airport_codes = @current_user.get_airport_codes(@current_user.id)
@@ -49,6 +49,4 @@ MyApp.get "/users/:id/process_search" do
   @returnable_location_and_price_array.each do |i|
     @return_this << (i[0] + " -- " + i[1])
   end
-  
-  erb :"users/display_results"
 end

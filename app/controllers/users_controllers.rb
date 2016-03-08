@@ -120,3 +120,7 @@ MyApp.post "/users/:id/delete" do
 
   redirect "/"
 end
+
+MyApp.get "/users/:id/process_search" do
+  process_search
+end
