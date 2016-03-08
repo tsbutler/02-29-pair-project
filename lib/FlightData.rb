@@ -38,7 +38,11 @@ def process_search(user_id, response_key_value_data)
     request_data(code) 
     locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
+  return locations_and_prices
+end
 
+def get_a_returnable_location_and_price_array(user_id, locations_and_prices)
+  current_user = User.find_by_id(user_id)
   gtfo_string_arr = current_user.get_price_array(current_user.id, locations_and_prices)
 
   returnable_location_and_price_hash = current_user.get_codes_and_prices(current_user.id, locations_and_prices)
@@ -48,9 +52,9 @@ def process_search(user_id, response_key_value_data)
   return returnable_location_and_price_array
 end
 
-def return_this(returnable_location_and_price_array)
+def return_this(get_a_returnable_location_and_price_array)
   return_this = []
-  returnable_location_and_price_array.each do |i|
+  get_a_returnable_location_and_price_array.each do |i|
     return_this << (i[0] + " -- " + i[1])
   end
 return return_this
