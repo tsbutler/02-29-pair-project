@@ -1,3 +1,5 @@
+require 'date'
+
 MyApp.get "/users/:id/process_search" do
   @locations_and_prices = {}
   @current_user = User.find_by_id(session["user_id"])
