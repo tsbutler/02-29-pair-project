@@ -62,12 +62,13 @@ end
 
 MyApp.get "/users/:id/edit" do
   @destinations = Destination.all
+  @user = User.find_by_id(params[:id])
+
   @dest_id_array = []
-  @choices = Choice.where("user_id" => params[:id])
+  @choices = @user.get_choices(params[:id])
   @choices.each do |c|
     @dest_id_array << c.destination_id
   end
-  @user = User.find_by_id(params[:id])
   @choices = Choice.where("user_id" => @user.id)
   erb :"users/edit"
 end
