@@ -60,6 +60,7 @@ class User < ActiveRecord::Base
   end
 
   def create_gtfo_array(price_arr)
+    @gtfo_arr = []
     price_arr.each do |string_price|
       price = string_price.delete("USD").to_f
       if price <= @user.budget
@@ -74,21 +75,18 @@ class User < ActiveRecord::Base
       i = "%.2f" % i
       @gtfo_string_arr << i
     end
+    @gtfo_string_arr.map! { |word| "USD#{word}" }
   end
 
   #Returns an Array of prices associated with the user's choices that are #below their stated budget
   #
   #Returns an Array of Strings  
   def get_price_array(user_id, locations_and_prices)
-    @gtfo_arr = []
     @price_arr = locations_and_prices.values
     @user = User.find_by_id(user_id)
 
     create_gtfo_array(@price_arr)
-
     format_gtfo_array(@gtfo_arr)
-
-    @gtfo_string_arr.map! { |word| "USD#{word}" }
     return @gtfo_string_arr
   end
 
