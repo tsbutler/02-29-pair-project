@@ -30,17 +30,7 @@ MyApp.post "/users/create" do
     @choice = Choice.new
     @choice.user_id = @user.id
     @choice.destination_id = choice
-
-    if @choice.is_valid? == false
-      @choices = Choice.where("user_id" => @user.id)
-      @choices.each do |choice|
-        choice.delete
-      end
-      @user.delete
-      halt erb :"choices/error"
-    else
-      @choice.save
-    end
+    @choice.save
   end
 
   redirect "/logins/new"
@@ -62,13 +52,8 @@ end
 
 MyApp.get "/users/:id/edit" do
   @destinations = Destination.all
-  @dest_id_array = []
-  @choices = Choice.where("user_id" => params[:id])
-  @choices.each do |c|
-    @dest_id_array << c.destination_id
-  end
   @user = User.find_by_id(params[:id])
-  @choices = Choice.where("user_id" => @user.id)
+  @dest_id_array = @user.make_choice_array(@user.id)
   erb :"users/edit"
 end
 

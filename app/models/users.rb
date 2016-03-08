@@ -32,6 +32,15 @@ class User < ActiveRecord::Base
     return @choices
   end
 
+  def make_choice_array(user_id)
+    @choices = get_choices(user_id)
+    @dest_id_array = []
+    @choices.each do |c|
+      @dest_id_array << c.destination_id
+    end
+    return @dest_id_array
+  end
+
   #Returns an Array of destination IDs associated with the user's choices
   #
   #Returns an Array of Integers
