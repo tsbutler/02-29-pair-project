@@ -12,11 +12,11 @@ end
 
 MyApp.post "/users/create" do
   @user = User.new
-  user.name = params[:name]
-  user.username = params[:username]
-  user.password = params[:password]
-  user.email = params[:email]
-  user.budget = params[:budget]
+  @user.name = params[:name]
+  @user.username = params[:username]
+  @user.password = params[:password]
+  @user.email = params[:email]
+  @user.budget = params[:budget]
 
   if @user.is_valid? == false
     halt erb :"users/error"
@@ -25,13 +25,7 @@ MyApp.post "/users/create" do
   end
 
   choices = [params["destination_id_1"], params["destination_id_2"], params["destination_id_3"], params["destination_id_4"], params["destination_id_5"]]
-
-  choices.each do |choice|
-    @choice = Choice.new
-    @choice.user_id = @user.id
-    @choice.destination_id = choice
-    @choice.save
-  end
+  @user.save_choice_objects(choices, @user.id)
 
   redirect "/logins/new"
 end
@@ -77,18 +71,9 @@ MyApp.post "/users/:id/update" do
   if choices.include?(nil) || choices.include?("")
     halt erb :"choices/error"
   else
-    @choices = Choice.where("user_id" => params[:id])
-    @choices.each do |choice|
-      choice.delete
-    end
+    @user.delete_users_choices(@user.id)
   end
-
-  choices.each do |choice|
-    @choice = Choice.new
-    @choice.user_id = @user.id
-    @choice.destination_id = choice
-    @choice.save
-  end
+  @user.save_choice_objects(choices, params[:id])
 
   redirect "/users/#{@user.id}/profile"
 end
