@@ -77,14 +77,15 @@ class User < ActiveRecord::Base
       price = string_price.delete("USD").to_f
         @gtfo_arr << price
     end
-    return @gtfo_arr
+    return @float_arr
   end
 
   #Compares an Array of Floats to the user's stated budget.
   #
   #Returns an Array of Floats.
-  def compare_price_arr_to_budget(gtfo_arr)
+  def compare_price_arr_to_budget(user_id, float_arr)
     @passing_arr = []
+    @user = User.find_by_id(user_id)
     gtfo_arr.each do |price|
       if price <= @user.budget
         @passing_arr << price
@@ -113,15 +114,12 @@ class User < ActiveRecord::Base
     return @formatted_gtfo_string_arr
   end
 
-  #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
+  #Creates a Hash of airport codes and prices of all the destinations that #were under the user's budget.
   #
   #Returns a Hash of Strings
-  def get_codes_and_prices(user_id, locations_and_prices)
+  def get_codes_and_prices(formatted_gtfo_string_arr, locations_and_prices)
     @codes_and_prices = {}
-    @user = User.find_by_id(user_id)
-    @gtfo_string_arr = @user.get_price_array(user_id, locations_and_prices)
- 
-    @gtfo_string_arr.each do |i|
+    formatted_gtfo_string_arr.each do |i|
       gtfo_key = locations_and_prices.key(i)
       @codes_and_prices[gtfo_key] = i
     end
