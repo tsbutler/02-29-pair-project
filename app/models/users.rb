@@ -82,8 +82,8 @@ class User < ActiveRecord::Base
   #
   #Returns an Array of Strings  
   def get_price_array(user_id, locations_and_prices)
-    @price_arr = locations_and_prices.values
     @user = User.find_by_id(user_id)
+    @price_arr = locations_and_prices.values
 
     create_gtfo_array(@price_arr)
     format_gtfo_array(@gtfo_arr)
@@ -97,12 +97,15 @@ class User < ActiveRecord::Base
     @codes_and_prices = {}
     @user = User.find_by_id(user_id)
     @gtfo_string_arr = @user.get_price_array(user_id, locations_and_prices)
- 
+    fetch_codes_from_prices(user_id, @gtfo_string_arr, locations_and_prices)
+  end
+
+  def fetch_codes_from_prices(user_id, gtfo_string_arr, locations_and_prices)
     @gtfo_string_arr.each do |i|
       gtfo_key = locations_and_prices.key(i)
       @codes_and_prices[gtfo_key] = i
     end
-    return @codes_and_prices #hash of keys(codes) and values(prices) below budget
+    return @codes_and_prices
   end
 
 end
