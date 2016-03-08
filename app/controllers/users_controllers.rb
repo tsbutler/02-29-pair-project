@@ -160,40 +160,39 @@ MyApp.get "/users/:id/process_search" do
 
   @price_arr = @current_user.set_price_arr(@locations_and_prices)
 
-  # binding.pry
+  binding.pry
 
   @float_arr = @current_user.convert_price_arr_to_floats(@price_arr)
 
-  # binding.pry
+  binding.pry
 
   @passing_arr = @current_user.compare_price_arr_to_budget(@current_user.id, @float_arr)
 
-  # binding.pry
-
+  if @passing_arr.length == 0
+    erb :"users/display_results"
+  
+  else  
   @gtfo_string_arr = @current_user.converts_passing_arr_back_to_strings(@passing_arr)
 
-  # binding.pry
+  binding.pry
 
   @formatted_gtfo_string_arr = @current_user.map_usd_onto_gtfo_string_arr(@gtfo_string_arr)
 
-  # binding.pry
+  binding.pry
 
   @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@formatted_gtfo_string_arr, @locations_and_prices)
 
-  # binding.pry
+  binding.pry
 
   @returnable_location_and_price_array = @returnable_location_and_price_hash.to_a
 
-  # binding.pry
+  binding.pry
 
   @return_this = []
-    
-  if @returnable_location_and_price_array.length == 0
-    erb :"users/display_results"
-  else
     @returnable_location_and_price_array.each do |i|
       @return_this << (i[0] + " -- " + i[1])
     end
-      erb :"users/display_results"
+    return @return_this
+    erb :"users/display_results"
   end
 end
