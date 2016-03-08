@@ -1,12 +1,8 @@
 require 'date'
 
-MyApp.get "/users/:id/process_search" do
-  @locations_and_prices = {}
-  @current_user = User.find_by_id(session["user_id"])
-  @airport_codes = @current_user.get_airport_codes(@current_user.id)
-  @airport_codes.each do |code|
-    
-    request_data = {
+#Sets the request_data variable. Requires the input of an aiport code string.
+def request_data(code)
+   request_data = {
       "request" => {
         "passengers" => {
           "adultCount" => "1"
@@ -21,14 +17,26 @@ MyApp.get "/users/:id/process_search" do
         "solutions" => "1"
       }
     }
+end
 
-  response_key_value_data = HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
+#Posts the request to the API.
+#
+#Returns a large Hash of Hashes and Arrays.
+def response_key_value_data
+  HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
     { 
     :body => request_data.to_json,
     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
   })
+end
 
-  @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
+MyApp.get "/users/:id/process_search" do
+  @locations_and_prices = {}
+  @current_user = User.find_by_id(session["user_id"])
+  @airport_codes = @current_user.get_airport_codes(@current_user.id)
+  @airport_codes.each do |code|
+    request_data(code) 
+    @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
   @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
