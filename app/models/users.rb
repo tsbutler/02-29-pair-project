@@ -117,4 +117,13 @@ class User < ActiveRecord::Base
     return @codes_and_prices
   end
 
+  def save_choice_objects(choices, user_id)
+    choices.each do |choice|
+      @choice = Choice.new
+      @choice.user_id = user_id
+      @choice.destination_id = choice
+      @choice.save
+    end
+  end
+
 end
