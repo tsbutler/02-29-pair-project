@@ -1,5 +1,6 @@
 require 'date'
 
+#Sets the request_data variable. Requires the input of an aiport code string.
 def request_data(code)
    request_data = {
       "request" => {
@@ -18,6 +19,9 @@ def request_data(code)
     }
 end
 
+#Posts the request to the API.
+#
+#Returns a large Hash of Hashes and Arrays.
 def response_key_value_data
   HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
     { 
