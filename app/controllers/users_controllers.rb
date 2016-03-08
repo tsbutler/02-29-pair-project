@@ -71,13 +71,13 @@ MyApp.post "/users/:id/update" do
   if choices.include?(nil) || choices.include?("")
     halt erb :"choices/error"
   else
-    @choices = Choice.where("user_id" => params[:id])
+    @choices = @user.get_choices(@user_id)
     @choices.each do |choice|
       choice.delete
     end
   end
 
-  @user.save_choice_objects(choices, params[:id])
+  @user.save_choice_objects(choices, @user_id)
 
   redirect "/users/#{@user.id}/profile"
 end
