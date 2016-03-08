@@ -30,17 +30,7 @@ MyApp.post "/users/create" do
     @choice = Choice.new
     @choice.user_id = @user.id
     @choice.destination_id = choice
-
-    if @choice.is_valid? == false
-      @choices = Choice.where("user_id" => @user.id)
-      @choices.each do |choice|
-        choice.delete
-      end
-      @user.delete
-      halt erb :"choices/error"
-    else
-      @choice.save
-    end
+    @choice.save
   end
 
   redirect "/logins/new"
