@@ -3,6 +3,25 @@ require 'test_helper'
 class FlightTest < Minitest::Test
 
   def setup
+
+    @user_test = User.new
+    @user_test.name = "John Doe"
+    @user_test.username = "John Doe"
+    @user_test.email = "john_doe@mail.com"
+    @user_test.password = "noone"
+    @user_test.budget = 2300
+    @user_test.save
+
+    @destination_test = Destination.new
+    @destination_test.airport_code = "LAX"
+    @destination_test.name = "Los Angeles"
+    @destination_test.save
+
+    @choice_test = Choice.new
+    @choice_test.destination_id = @destination_test.id
+    @choice_test.user_id = @user_test.id
+    @choice_test.save
+
     @response_data = {"kind"=>"qpxExpress#tripsSearch",
  "trips"=>
   {"kind"=>"qpxexpress#tripOptions",
@@ -133,4 +152,15 @@ class FlightTest < Minitest::Test
     x = @response_data["trips"]["tripOption"][0]["saleTotal"]
     assert_equal("USD185.10", x)
   end
+
+  def test_process_search
+    assert_equal([["LAX", "USD185.10"]], process_search(@user_test.id, @response_data))
+  end
+
+  def test_return_this
+    assert_equal(["LAX -- USD185.10"], return_this(process_search(@user_test.id, @response_data)))
+  end
 end
+
+
+
