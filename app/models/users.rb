@@ -126,4 +126,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def delete_users_choices(user_id)
+    choices = get_choices(user_id)
+    choices.each do |choice|
+      choice.delete
+    end
+  end
+
 end
