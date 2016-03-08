@@ -1,12 +1,7 @@
 require 'date'
 
-MyApp.get "/users/:id/process_search" do
-  @locations_and_prices = {}
-  @current_user = User.find_by_id(session["user_id"])
-  @airport_codes = @current_user.get_airport_codes(@current_user.id)
-  @airport_codes.each do |code|
-    
-    request_data = {
+def request_data(code)
+   request_data = {
       "request" => {
         "passengers" => {
           "adultCount" => "1"
@@ -21,7 +16,16 @@ MyApp.get "/users/:id/process_search" do
         "solutions" => "1"
       }
     }
+end
 
+MyApp.get "/users/:id/process_search" do
+  @locations_and_prices = {}
+  @current_user = User.find_by_id(session["user_id"])
+  @airport_codes = @current_user.get_airport_codes(@current_user.id)
+  @airport_codes.each do |code|
+    
+    request_data(code) 
+    
   response_key_value_data = HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
     { 
     :body => request_data.to_json,
