@@ -18,21 +18,21 @@ def request_data(code)
     }
 end
 
+def response_key_value_data
+  HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
+    { 
+    :body => request_data.to_json,
+    :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
+  })
+end
+
 MyApp.get "/users/:id/process_search" do
   @locations_and_prices = {}
   @current_user = User.find_by_id(session["user_id"])
   @airport_codes = @current_user.get_airport_codes(@current_user.id)
   @airport_codes.each do |code|
-    
     request_data(code) 
-    
-  response_key_value_data = HTTParty.post("https://www.googleapis.com/qpxExpress/v1/trips/search?key=#{ENV["GOOGLE_FLIGHT_API_KEY"]}",
-    { 
-    :body => request_data.to_json,
-    :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
-  })
-
-  @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
+    @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
   @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
