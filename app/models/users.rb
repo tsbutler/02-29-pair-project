@@ -59,9 +59,18 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
+  def create_gtfo_array(price_arr)
+    price_arr.each do |string_price|
+      price = string_price.delete("USD").to_f
+      if price <= @user.budget
+        @gtfo_arr << price
+      end
+    end
+  end
+
   def format_gtfo_array(gtfo_arr)
     @gtfo_string_arr = []
-    @gtfo_arr.each do |i|
+    gtfo_arr.each do |i|
       i = "%.2f" % i
       @gtfo_string_arr << i
     end
@@ -75,12 +84,7 @@ class User < ActiveRecord::Base
     @price_arr = locations_and_prices.values
     @user = User.find_by_id(user_id)
 
-    @price_arr.each do |string_price|
-      price = string_price.delete("USD").to_f
-      if price <= @user.budget
-        @gtfo_arr << price
-      end
-    end
+    create_gtfo_array(@price_arr)
 
     format_gtfo_array(@gtfo_arr)
 
