@@ -59,6 +59,14 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
+  def format_gtfo_array(gtfo_arr)
+    @gtfo_string_arr = []
+    @gtfo_arr.each do |i|
+      i = "%.2f" % i
+      @gtfo_string_arr << i
+    end
+  end
+
   #Returns an Array of prices associated with the user's choices that are #below their stated budget
   #
   #Returns an Array of Strings  
@@ -73,11 +81,8 @@ class User < ActiveRecord::Base
         @gtfo_arr << price
       end
     end
-    @gtfo_string_arr = []
-    @gtfo_arr.each do |i|
-      i = "%.2f" % i
-      @gtfo_string_arr << i
-    end
+
+    format_gtfo_array(@gtfo_arr)
 
     @gtfo_string_arr.map! { |word| "USD#{word}" }
     return @gtfo_string_arr
