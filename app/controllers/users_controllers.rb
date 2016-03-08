@@ -125,8 +125,8 @@ MyApp.get "/users/:id/process_search" do
   @locations_and_prices = {}
   @current_user = User.find_by_id(session["user_id"])
   @airport_codes = @current_user.get_airport_codes(@current_user.id)
+
   @airport_codes.each do |code|
-    
     request_data = {
       "request" => {
         "passengers" => {
@@ -149,19 +149,50 @@ MyApp.get "/users/:id/process_search" do
     :headers => { 'Content-Type' => 'application/json', 'Accept' => 'application/json'}
   })
 
+  binding.pry
+  
   @locations_and_prices[code] = response_key_value_data["trips"]["tripOption"][0]["saleTotal"]
   end
 
-  @gtfo_string_arr = @current_user.get_price_array(@current_user.id, @locations_and_prices)
+  #------------------------------------------------------------------------
+  # I think what is above this line still works.  Need to take a hard look at # what's below and get it to work with the changes that were made on the 
+  # user model.
 
-  @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@current_user.id, @locations_and_prices)
+  @price_arr = @current_user.set_price_arr(@locations_and_prices)
+
+  binding.pry
+
+  @float_arr = @current_user.convert_price_arr_to_floats(@price_arr)
+
+  binding.pry
+
+  @passing_arr = @current_user.compare_price_arr_to_budget(@current_user.id, @float_arr)
+
+  if @passing_arr.length == 0
+    erb :"users/display_results"
+  
+  else  
+  @gtfo_string_arr = @current_user.converts_passing_arr_back_to_strings(@passing_arr)
+
+  binding.pry
+
+  @formatted_gtfo_string_arr = @current_user.map_usd_onto_gtfo_string_arr(@gtfo_string_arr)
+
+  binding.pry
+
+  @returnable_location_and_price_hash = @current_user.get_codes_and_prices(@formatted_gtfo_string_arr, @locations_and_prices)
+
+  binding.pry
 
   @returnable_location_and_price_array = @returnable_location_and_price_hash.to_a
 
+  binding.pry
+
   @return_this = []
-  @returnable_location_and_price_array.each do |i|
-    @return_this << (i[0] + " -- " + i[1])
+    @returnable_location_and_price_array.each do |i|
+      @return_this << (i[0] + " -- " + i[1])
+    end
+    return @return_this
+    erb :"users/display_results"
   end
-  
-  erb :"users/display_results"
 end

@@ -59,39 +59,68 @@ class User < ActiveRecord::Base
     return @airport_codes
   end
 
-  #Returns an Array of prices associated with the user's choices that are #below their stated budget
+  #Generates an Array of prices drawn from the locations_and_prices Hash.
   #
-  #Returns an Array of Strings  
-  def get_price_array(user_id, locations_and_prices)
-    @gtfo_arr = []
-    @price_arr = locations_and_prices.values
-    @user = User.find_by_id(user_id)
-
-    @price_arr.each do |string_price|
-      price = string_price.delete("USD").to_f
-      if price <= @user.budget
-        @gtfo_arr << price
-      end
-    end
-    @gtfo_string_arr = []
-    @gtfo_arr.each do |i|
-      i = "%.2f" % i
-      @gtfo_string_arr << i
-    end
-
-    @gtfo_string_arr.map! { |word| "USD#{word}" }
-    return @gtfo_string_arr
+  #Returns an Array of Strings
+  def set_price_arr(locations_and_prices)
+    price_arr = locations_and_prices.values
+    return price_arr
   end
 
-  #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
+  #Takes an Array of Strings(prices) and converts them to an Array of Floats
+  #(still prices)
+  #
+  #Returns an Array of Floats  
+  def convert_price_arr_to_floats(price_arr)
+    float_arr = []
+    price_arr.each do |string_price|
+      price = string_price.delete("USD").to_f
+        float_arr << price
+    end
+    return float_arr
+  end
+
+  #Compares an Array of Floats to the user's stated budget.
+  #
+  #Returns an Array of Floats.
+  def compare_price_arr_to_budget(user_id, float_arr)
+    passing_arr = []
+    @user = User.find_by_id(user_id)
+    float_arr.each do |price|
+      if price <= @user.budget
+        passing_arr << price
+      end
+    end
+    return passing_arr
+  end
+  
+  #Converts the Array of prices that are below the user's budget back from
+  #floats to strings.
+  #
+  #returns an Array of Strings
+  def converts_passing_arr_back_to_strings(passing_arr)
+    gtfo_string_arr = []
+    passing_arr.each do |i|
+      i = "%.2f" % i
+      gtfo_string_arr << i
+    end
+    return gtfo_string_arr
+  end
+
+  #Maps the String "USD" to the front of each member of the Array.
+  #
+  #Returns an Array of Strings
+  def map_usd_onto_gtfo_string_arr(gtfo_string_arr)
+    gtfo_string_arr.map! { |word| "USD#{word}" }
+    return formatted_gtfo_string_arr
+  end
+
+  #Creates a Hash of airport codes and prices of all the destinations that #were under the user's budget.
   #
   #Returns a Hash of Strings
-  def get_codes_and_prices(user_id, locations_and_prices)
+  def get_codes_and_prices(formatted_gtfo_string_arr, locations_and_prices)
     @codes_and_prices = {}
-    @user = User.find_by_id(user_id)
-    @gtfo_string_arr = @user.get_price_array(user_id, locations_and_prices)
- 
-    @gtfo_string_arr.each do |i|
+    formatted_gtfo_string_arr.each do |i|
       gtfo_key = locations_and_prices.key(i)
       @codes_and_prices[gtfo_key] = i
     end
