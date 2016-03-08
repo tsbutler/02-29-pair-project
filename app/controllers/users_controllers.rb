@@ -123,4 +123,5 @@ end
 
 MyApp.get "/users/:id/process_search" do
   process_search
+  erb :"users/display_results"
 end
