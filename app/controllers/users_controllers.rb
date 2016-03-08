@@ -73,7 +73,6 @@ MyApp.post "/users/:id/update" do
   else
     @user.delete_users_choices(@user.id)
   end
-
   @user.save_choice_objects(choices, params[:id])
 
   redirect "/users/#{@user.id}/profile"
