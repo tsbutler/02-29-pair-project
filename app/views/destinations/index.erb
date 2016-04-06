@@ -1,19 +1,23 @@
-<h1>All Destinations </h1>
+<div class="container">
+  <h1>All Destinations </h1>
+</div>
+<div class="container">
+  <form action="/destinations/new" method="get">
+    <input type="submit" value="Add a destination">
+  </form><br>
 
-<form action="/destinations/new" method="get">
-  <input type="submit" value="Add a destination">
-</form><br>
+  <% @destinations.each do |d| %>
+  <%= d.name %> -- <%= d.airport_code %>
 
-<% @destinations.each do |d| %>
-<%= d.name %> -- <%= d.airport_code %>
+  <form action="/destinations/<%= d.id %>/edit" method="get">
+    <input type="submit" value="Edit"> </form>
 
-<form action="/destinations/<%= d.id %>/edit" method="get">
-  <input type="submit" value="Edit"> </form>
-
-<form action="/destinations/<%= d.id %>/delete" method="post">
-  <input type="submit" value="Delete">
-</form>
-<br>
-<% end %>
-
-<a href="/users/<%=session["user_id"] %>/profile">Back</a>
+  <form action="/destinations/<%= d.id %>/delete" method="post">
+    <input type="submit" value="Delete">
+  </form>
+  <br>
+  <% end %>
+</div>
+<div class="container">
+  <a href="/users/<%=session["user_id"] %>/profile">Back</a>
+</div>

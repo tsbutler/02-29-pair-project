@@ -1,11 +1,15 @@
-<h1>Edit destination</h1>
-
-<form action="/destinations/<%= @destination.id %>/update" method="post">
- Destination name:<br>
- <input type="text" name="name" value="<%=@destination.name%>"><br>
- Airport code:<br>
- <input type="text" name="airport_code" value="<%=@destination.airport_code%>"><br>
- <input type="submit">
-</form>
-
-<a href="/destinations/index">Back</a>
+<div class="container">
+  <h1>Edit destination</h1>
+</div>
+<div class="container">
+  <form action="/destinations/<%= @destination.id %>/update" method="post">
+   Destination name:<br>
+   <input type="text" name="name" value="<%=@destination.name%>"><br>
+   Airport code:<br>
+   <input type="text" name="airport_code" value="<%=@destination.airport_code%>"><br>
+   <input type="submit">
+  </form>
+</div>
+<div class="container">
+  <a href="/destinations/index">Back</a>
+</div>

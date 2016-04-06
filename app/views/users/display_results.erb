@@ -1,13 +1,18 @@
-<h1>Your Results</h1>
+<div class="container">
+  <h1>Your Results</h1>
+</div>
+<div class="container">
+  <% if @gtfo_string_arr.length == 0 %>
+    <p> Better luck GTFOmaha-ing tomorrow! </p>
+  <% else %>
+    <p> There are returnable results. </p><br>
 
-<% if @gtfo_string_arr.length == 0 %>
-  <p> Better luck GTFOmaha-ing tomorrow! </p>
-<% else %>
-  <p> There are returnable results. </p><br>
-
-  <% @return_this.each do |i| %>
-    <%= i %><br>
+    <% @return_this.each do |i| %>
+      <%= i %><br>
+    <% end %>
   <% end %>
-<% end %>
+</div>
 
-<a href="/users/<%=session["user_id"] %>/profile">Back</a>
+<div class="container">
+  <a href="/users/<%=session["user_id"] %>/profile">Back</a>
+</div>

@@ -1,63 +1,66 @@
-<form action="/users/<%= @user.id %>/update" method="post">
+<div class="container">
+  <form action="/users/<%= @user.id %>/update" method="post">
 
-  Name:
-    <input type="text" name="name" value="<%= @user.name %>"><br>
-  Username:
-    <input type="text" name="username" value="<%= @user.username %>"><br>
-  Password:
-    <input type="text" name="password" value="<%= @user.password %>"><br>
-  Email:
-    <input type="text" name="email" value="<%= @user.email %>"><br>
+    Name:
+      <input type="text" name="name" value="<%= @user.name %>"><br>
+    Username:
+      <input type="text" name="username" value="<%= @user.username %>"><br>
+    Password:
+      <input type="text" name="password" value="<%= @user.password %>"><br>
+    Email:
+      <input type="text" name="email" value="<%= @user.email %>"><br>
 
-  List your top 5 travel destinations:<br>
-  <select name="destination_id_1">
-      <%@destinations.each do |d| %>
-        <option value="<%=d.id%>"
-        <%= "selected" if d.id == @dest_id_array[0] %>>
-         <%=d.name%>
-        </option>
-      <%end%>
-  </select><br>
+    List your top 5 travel destinations:<br>
+    <select name="destination_id_1">
+        <%@destinations.each do |d| %>
+          <option value="<%=d.id%>"
+          <%= "selected" if d.id == @dest_id_array[0] %>>
+           <%=d.name%>
+          </option>
+        <%end%>
+    </select><br>
 
-  <select name="destination_id_2">
-      <%@destinations.each do |d| %>
-        <option value="<%=d.id%>"
-        <%= "selected" if d.id == @dest_id_array[1] %>>
-         <%=d.name%>
-        </option>
-      <%end%>
-  </select><br>
+    <select name="destination_id_2">
+        <%@destinations.each do |d| %>
+          <option value="<%=d.id%>"
+          <%= "selected" if d.id == @dest_id_array[1] %>>
+           <%=d.name%>
+          </option>
+        <%end%>
+    </select><br>
 
-  <select name="destination_id_3">
-      <%@destinations.each do |d| %>
-        <option value="<%=d.id%>"
-        <%= "selected" if d.id == @dest_id_array[2] %>>
-         <%=d.name%>
-        </option>
-      <%end%>
-  </select><br>
+    <select name="destination_id_3">
+        <%@destinations.each do |d| %>
+          <option value="<%=d.id%>"
+          <%= "selected" if d.id == @dest_id_array[2] %>>
+           <%=d.name%>
+          </option>
+        <%end%>
+    </select><br>
 
-  <select name="destination_id_4">
-      <%@destinations.each do |d| %>
-        <option value="<%=d.id%>"
-        <%= "selected" if d.id == @dest_id_array[3] %>>
-         <%=d.name%>
-        </option>
-      <%end%>
-  </select><br>
+    <select name="destination_id_4">
+        <%@destinations.each do |d| %>
+          <option value="<%=d.id%>"
+          <%= "selected" if d.id == @dest_id_array[3] %>>
+           <%=d.name%>
+          </option>
+        <%end%>
+    </select><br>
 
-  <select name="destination_id_5">
-      <%@destinations.each do |d| %>
-        <option value="<%=d.id%>"
-        <%= "selected" if d.id == @dest_id_array[4] %>>
-         <%=d.name%>
-        </option>
-      <%end%>
-  </select><br>
+    <select name="destination_id_5">
+        <%@destinations.each do |d| %>
+          <option value="<%=d.id%>"
+          <%= "selected" if d.id == @dest_id_array[4] %>>
+           <%=d.name%>
+          </option>
+        <%end%>
+    </select><br>
 
-  How much are you willing to spend on a ticket?
-    $<input type="integer" name="budget" value="<%= @user.budget %>"><br>
-    <input type="submit" value="Submit">
-</form>
-
-<a href="/users/<%=session["user_id"] %>/profile">Back</a>
+    How much are you willing to spend on a ticket?
+      $<input type="integer" name="budget" value="<%= @user.budget %>"><br>
+      <input type="submit" value="Submit">
+  </form>
+</div>
+<div class="container">
+  <a href="/users/<%=session["user_id"] %>/profile">Back</a>
+</div>
