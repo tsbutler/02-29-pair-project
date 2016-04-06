@@ -6,6 +6,7 @@ MyApp.get "/users" do
 end
 
 MyApp.get "/users/new" do
+  @hide_nav = true
   @destinations = Destination.all
   erb :"users/new"
 end

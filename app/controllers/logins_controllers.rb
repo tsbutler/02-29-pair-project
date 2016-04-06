@@ -1,4 +1,5 @@
 MyApp.get "/logins/new" do
+  @hide_nav = true
   erb :"/logins/new"
 end
 
