@@ -7,7 +7,10 @@
   <% end %> 
 
   <form action="/users/<%= @user.id %>/process_search" method="get">
-    <input type="submit" value="GTFOmaha">
+    <button class="btn btn-default-outline" type="button">
+      <span class="icon icon-aircraft"></span>
+      GTFOmaha
+    </button>
   </form>
 
   <form action="/users/<%= @user.id %>/edit" method="get">
@@ -18,9 +21,6 @@
     <input type="submit" value="Delete">
   </form>
 
-  <form action="/logins/delete" method="get">
-    <input type="submit" value="Log out">
-  </form>
 </div>
 <div class="container">
   <a href="/destinations/index"> Click here</a> to view or add destinations
