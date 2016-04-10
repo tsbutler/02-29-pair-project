@@ -6,17 +6,18 @@
   <br>
 </div>
 <div class="container">
-  <% @user.get_airport_codes(@user.id).each do |code| %>
+  <% @user.get_airport_codes.each do |code| %>
       <%= code %> -- <%= Destination.find_by_airport_code(code).name %><br>
       <br>
   <% end %> 
 </div>
 <div class="container">
   <form action="/users/<%= @user.id %>/process_search" method="get">
-    <button type="button" class="btn btn-lg btn-pill btn-danger">
+  <button type="submit" class="btn btn-lg btn-pill btn-danger">
       <span class="icon icon-aircraft">
         GTFOmaha
       </span>  
     </button>
   </form>
 </div>  
+

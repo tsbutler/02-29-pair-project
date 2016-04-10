@@ -40,15 +40,16 @@ end
 
 MyApp.get "/users/:id/profile" do
   @user = User.find_by_id(params[:id])
-  @choices = Choice.where("user_id" => params[:id])
+  @choices = Choice.where("user_id" => @user.id)
   @destinations = Destination.all
   erb :"users/profile"
 end
 
+#get_destination_ids changed from make_choice_array
 MyApp.get "/users/:id/edit" do
   @destinations = Destination.all
   @user = User.find_by_id(params[:id])
-  @dest_id_array = @user.make_choice_array(@user.id)
+  @dest_id_array = @user.get_destination_ids
   erb :"users/edit"
 end
 
@@ -72,9 +73,9 @@ MyApp.post "/users/:id/update" do
   if choices.include?(nil) || choices.include?("")
     halt erb :"choices/error"
   else
-    @user.delete_users_choices(@user.id)
+    @user.delete_users_choices
   end
-  @user.save_choice_objects(choices, params[:id])
+  @user.save_choice_objects(choices)
 
   redirect "/users/#{@user.id}/profile"
 end
@@ -93,6 +94,6 @@ MyApp.post "/users/:id/delete" do
 end
 
 MyApp.get "/users/:id/process_search" do
-  process_search
+  @return_this = return_this(params[:id])
   erb :"users/display_results"
 end

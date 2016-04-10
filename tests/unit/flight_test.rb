@@ -154,15 +154,11 @@ class FlightTest < Minitest::Test
   end
 
   def test_process_search
-    assert_equal({"LAX" => "USD185.10"}, process_search(@user_test.id, @response_data))
+    assert_equal({"LAX" => "USD185.10"}, process_search(@user_test.id))
   end
-
-  def test_get_a_returnable_location_and_price_array
-    assert_equal([["LAX", "USD185.10"]], get_a_returnable_location_and_price_array(@user_test.id, process_search(@user_test.id, @response_data)))
-  end 
     
   def test_return_this
-    assert_equal(["LAX -- USD185.10"], return_this(get_a_returnable_location_and_price_array(@user_test.id, process_search(@user_test.id, @response_data))))
+    assert_equal(["LAX -- USD185.10"], return_this(@user_test.id))
   end
 end
 

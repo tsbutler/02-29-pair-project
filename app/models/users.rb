@@ -24,113 +24,64 @@ class User < ActiveRecord::Base
     end
   end
 
+  #gets the user_object based on a given user id
+  #
+  #Returns the user_object
+  def self.get_user_object(user_id)
+    @user = User.find_by_id(user_id)
+  end
   #Returns a collection of the user's choice objects
   #
   #Returns an Array of Objects
-  def get_choices(user_id)
-    @choices = Choice.where("user_id" => user_id)
-    return @choices
-  end
-
-  def make_choice_array(user_id)
-    @choices = get_choices(user_id)
-    @dest_id_array = []
-    @choices.each do |c|
-      @dest_id_array << c.destination_id
-    end
-    return @dest_id_array
+  def get_choices
+    @choices = Choice.where("user_id" => self.id)
   end
 
   #Returns an Array of destination IDs associated with the user's choices
   #
   #Returns an Array of Integers
-  def get_destination_ids(user_id)
-    @destination_ids = []
-    @user_object = User.find_by_id(user_id)
-    @choices = @user_object.get_choices(user_id)
-    @choices.each do |choice|
-      @destination_ids << choice.destination_id
+  def get_destination_ids
+    destination_ids = []
+    get_choices.each do |choice|
+      destination_ids << choice.destination_id
     end
-    return @destination_ids
+    destination_ids
   end
 
   #Returns an Array of airport_codes associated with the user's choices
   #
   #Returns an Array of Strings
-  def get_airport_codes(user_id)
-    @airport_codes = []
-    @user_object = User.find_by_id(user_id)
-    @destinations = @user_object.get_destination_ids(user_id)
-    @destinations.each do |destination|
+  def get_airport_codes
+    airport_codes = []
+    get_destination_ids.each do |destination|
       location = Destination.find_by_id(destination)
-      @airport_codes << location.airport_code
+      airport_codes << location.airport_code
     end
-    return @airport_codes
+    return airport_codes
   end
 
-  def create_gtfo_array(price_arr)
-    @gtfo_arr = []
-    price_arr.each do |string_price|
-      price = string_price.delete("USD").to_f
-      if price <= @user.budget
-        @gtfo_arr << price
-      end
-    end
-  end
-
-  def format_gtfo_array(gtfo_arr)
-    @gtfo_string_arr = []
-    gtfo_arr.each do |i|
-      i = "%.2f" % i
-      @gtfo_string_arr << i
-    end
-    @gtfo_string_arr.map! { |word| "USD#{word}" }
-  end
-
-  #Returns an Array of prices associated with the user's choices that are #below their stated budget
+  #Saves user's choices when they update their profile
   #
-  #Returns an Array of Strings  
-  def get_price_array(user_id, locations_and_prices)
-    @user = User.find_by_id(user_id)
-    @price_arr = locations_and_prices.values
-
-    create_gtfo_array(@price_arr)
-    format_gtfo_array(@gtfo_arr)
-    return @gtfo_string_arr
-  end
-
-  #Returns a Hash of the airports codes and prices that are below the users #stated budget, with airport codes as Keys and prices as Values
-  #
-  #Returns a Hash of Strings
-  def get_codes_and_prices(user_id, locations_and_prices)
-    @codes_and_prices = {}
-    @user = User.find_by_id(user_id)
-    @gtfo_string_arr = @user.get_price_array(user_id, locations_and_prices)
-    fetch_codes_from_prices(user_id, @gtfo_string_arr, locations_and_prices)
-  end
-
-  def fetch_codes_from_prices(user_id, gtfo_string_arr, locations_and_prices)
-    @gtfo_string_arr.each do |i|
-      gtfo_key = locations_and_prices.key(i)
-      @codes_and_prices[gtfo_key] = i
-    end
-    return @codes_and_prices
-  end
-
-  def save_choice_objects(choices, user_id)
+  #Saves data to the database
+  def save_choice_objects(user_choices)
+    choices = user_choices
     choices.each do |choice|
       @choice = Choice.new
-      @choice.user_id = user_id
+      @choice.user_id = self.id
       @choice.destination_id = choice
       @choice.save
     end
   end
 
-  def delete_users_choices(user_id)
-    choices = get_choices(user_id)
+  #Deletes user's choices when they fail to completely fill out the form
+  #
+  #Deletes items from the database.
+  def delete_users_choices
+    choices = get_choices
     choices.each do |choice|
       choice.delete
     end
   end
 
 end
+

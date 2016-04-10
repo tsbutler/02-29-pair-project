@@ -59,22 +59,14 @@ class UserTest < Minitest::Test
   end
 
   def test_get_choices
-    assert_includes(@user_1.get_choices(@user_1.id), @choice_1)
+    assert_includes(@user_1.get_choices, @choice_1)
   end
 
   def test_get_destination_ids
-    assert_includes(@user_1.get_destination_ids(@user_1.id), @destination_4.id)
+    assert_includes(@user_1.get_destination_ids, @destination_4.id)
   end
 
   def test_get_airport_codes
-    assert_includes(@user_1.get_airport_codes(@user_1.id), "LHR")
-  end
-
-  def test_get_price_array
-    assert_equal(@user_1.get_price_array(@user_1.id, {"LHR" => "USD1600.00"}), ["USD1600.00"])
-  end
-
-  def test_get_codes_and_prices
-    assert_equal(@user_1.get_codes_and_prices(@user_1.id, {"LHR" => "USD1600.00"}), {"LHR" => "USD1600.00"})
+    assert_includes(@user_1.get_airport_codes, "LHR")
   end
 end
