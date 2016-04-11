@@ -1,3 +1,14 @@
+#I have the sneaking suspicion that one of the reasons that the flight
+#search takes as long to process as it does is that we're hitting the 
+#API more than we think we are, i.e., once for each airport code.  Now, 
+#that's problematic for a couple of reasons.  First, we only have a limited
+#number of queries per day.  I'd rather not waste them if we don't have to.  
+#Second, it's just inefficient.  One possible way of dealing with this is 
+#having the initial request(s) get set to a particular variable and then 
+#use that variable for all subsequent methods.  The trick at the moment is
+#picking where to put that step in.  Still, in principle, I don't think it's
+#a tough fix.
+
 require 'date'
 
 #Sets the request_data variable. Requires the input of an aiport code string.

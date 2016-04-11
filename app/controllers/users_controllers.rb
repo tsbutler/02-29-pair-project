@@ -1,3 +1,6 @@
+#I think there might be a bit too much work being done in this controller
+#for maintainability's sake.  Look into fixing that.
+
 require 'date'
 
 MyApp.get "/users" do
@@ -45,7 +48,6 @@ MyApp.get "/users/:id/profile" do
   erb :"users/profile"
 end
 
-#get_destination_ids changed from make_choice_array
 MyApp.get "/users/:id/edit" do
   @destinations = Destination.all
   @user = User.find_by_id(params[:id])

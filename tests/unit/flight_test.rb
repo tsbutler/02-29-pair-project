@@ -1,3 +1,9 @@
+#As it stands right now, whenever you run the main test, it hits the API.  As 
+#we're currently limited in the number of queries we can do per day, we need 
+#to figure out how to refactor the process_search method in FlightData.rb so 
+#that it uses the response data below.  Additionally, we need to write some 
+#more tests now that we've reworked a lot of things.
+
 require 'test_helper'
 
 class FlightTest < Minitest::Test
